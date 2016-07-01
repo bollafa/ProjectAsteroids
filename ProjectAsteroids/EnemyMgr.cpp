@@ -27,12 +27,19 @@ Vector EnemyMgr::RandomPosition()
 
 void EnemyMgr::CreateEnemies()
 {
-	if (ShouldSpawn())
+	//if (ShouldSpawn())
 	{
 		//MaxDelay -= 0.25;
 		//MinDelay /= 2;
 		//MinDelay += 0.25;
-		Asteroid* Enemy = new Asteroid(RandomPosition(), 5.0,Difficulty); // Change size based on time, but we need time
+		if(UnitMgr::mgrUnits.size() < MinDelay+10)
+		for (int i = 10; i > 0; i--)
+		{
+			Asteroid* Enemy = new Asteroid(RandomPosition(), 5.0, Difficulty); 
+			UnitMgr::AddToGroup(Enemy);
+		}
+		// Change size based on time, but we need time
+		
 		//Difficulty *= 1.25;
 		if (Difficulty > 10)
 			Difficulty = 10;
@@ -40,7 +47,7 @@ void EnemyMgr::CreateEnemies()
 			Difficulty *= 1.001;
 		//Difficulty = fmod(Difficulty, 10);
 		// No puedes & porque cuando llega al final desparece
-		UnitMgr::AddToGroup(Enemy);
+		
 	} // Aqui ves?
 
 	// Do nothing

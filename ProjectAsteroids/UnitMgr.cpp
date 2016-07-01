@@ -9,7 +9,7 @@
 #include <memory>
 #include <list>
 #include <forward_list>
- std::list<std::shared_ptr<Unit>> UnitMgr::mgrUnits; // Yuhu , dont Forget the UnitMgr:: !!!!!!!!!!!!!!!!!!!!
+ std::vector<std::shared_ptr<Unit>> UnitMgr::mgrUnits; // Yuhu , dont Forget the UnitMgr:: !!!!!!!!!!!!!!!!!!!!
  void UnitMgr::AddToGroup(Unit* uLiving)
 {
 	mgrUnits.push_back((std::shared_ptr<Unit>(uLiving)));

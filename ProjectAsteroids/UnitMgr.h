@@ -9,7 +9,7 @@ class Player;
 namespace UnitMgr
 {
 
-	 extern  std::list<std::shared_ptr<Unit>> mgrUnits;
+	 extern  std::vector<std::shared_ptr<Unit>> mgrUnits;
 	
 	 void AddToGroup(Unit* uLiving);
 	 void UpdateUnits();

@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="Cannon.h" />
     <ClInclude Include="EnemyMgr.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Globals.h" />

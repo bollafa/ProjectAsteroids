@@ -41,17 +41,18 @@ int main()
 	ALLEGRO_FONT *Basic = NULL;
 	ALLEGRO_TIMER* tick = NULL;
 	ALLEGRO_EVENT_QUEUE *event_q = NULL;
+	ALLEGRO_TIMER* spawner = NULL;
 	bool bReDraw = true;
 	bool bAlive = true;
 	// Initializing
 	Basic = al_create_builtin_font();
 	tick = al_create_timer(1.0 / FPS); // REMEMBER THIS IS DOUBLE NOT INT
 	event_q = al_create_event_queue();
-
+	spawner = al_create_timer(10);
 	// Init Player & Managers
 	//--------------------------------------
 	pPlayer = new Player(Vector(WIDTH / 2, HEIGHT / 2 ), 10.5,3.0),
-	pEnemyMgr = new EnemyMgr(20, 2.0,0.5);
+	pEnemyMgr = new EnemyMgr(20, 2.0,50);
 	int counter = 0;
 	bool IsMoving = false;
 	//FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -61,12 +62,16 @@ int main()
 	al_register_event_source(event_q, al_get_keyboard_event_source());
 	al_register_event_source(event_q, al_get_mouse_event_source());
 	al_register_event_source(event_q, al_get_display_event_source(window));
+	al_register_event_source(event_q, al_get_timer_event_source(spawner));
 	//TODO: CREATE TIMER THAT CREATES WAVES OF ENEMIES
 	//Start Timer
 	//------------------------//
+	al_start_timer(spawner);
 	al_start_timer(tick);
 
-	
+	// 600 0.004 VECTOR
+	// 600 0.005 LIST
+
 	//Game Loop
 
 	while (bAlive)
@@ -79,8 +84,10 @@ int main()
 			bAlive = false;
 			break;
 		case ALLEGRO_EVENT_TIMER:
-			
-			bReDraw = true;
+			if(ev.timer.source == tick)
+				bReDraw = true;
+			if(ev.timer.source ==spawner )
+				pEnemyMgr->CreateEnemies();
 			break;
 
 		case ALLEGRO_EVENT_KEY_UP:
@@ -161,7 +168,7 @@ int main()
 			//al_draw_circle( circle.X,  circle.Y, 50, al_map_rgb(0, 0, 255), 2);
 			//al_draw_circle(WIDTH / 2, HEIGHT / 2, 400,al_map_rgb(0, 0, 255), 2);
 			
-			pEnemyMgr->CreateEnemies();
+			
 			double INITIALTIME = al_get_time();
 			UnitMgr::UpdateUnits();
 			al_draw_textf(Basic, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "AAAAAAAAAAAAAAA n  The Game: %i Time : %f", UnitMgr::mgrUnits.size(), al_get_time() - INITIALTIME);

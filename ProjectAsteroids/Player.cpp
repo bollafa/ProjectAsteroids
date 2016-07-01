@@ -7,7 +7,7 @@
 #include "Globals.h"
 #include <allegro5\allegro_primitives.h>
 #include <math.h>
-void Player::Draw()
+ void Player::Draw()
 {
 	//al_draw_filled_circle(vCoord.vCoord.X, vCoord.vCoord.Y, dSize, al_map_rgb(R, G, B));
 	ALLEGRO_TRANSFORM trans;
@@ -47,7 +47,7 @@ void Player::ApplyForce(double Angle)
 
 
 
-void Player::MoveTo()
+ void Player::MoveTo()
 {
 	Vector Right(0,0);
 	Vector Left(0, 0);
