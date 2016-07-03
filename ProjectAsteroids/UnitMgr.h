@@ -12,7 +12,7 @@ namespace UnitMgr
 	 extern  std::vector<std::shared_ptr<Unit>> mgrUnits;
 	
 	 void AddToGroup(Unit* uLiving);
-	 void UpdateUnits();
-	
-
+	extern inline void UpdateUnits();
+	bool CheckCollision(Unit &One, Unit &Two);
+	void UpdateCollision();
 }

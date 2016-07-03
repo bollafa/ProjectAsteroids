@@ -17,18 +17,32 @@
 	al_translate_transform(&trans, vCoord.X, vCoord.Y);
 
 	al_use_transform(&trans);
+	/*float x = vCoord.X;   //	SLOW SLOW ALERT ALERT
+	float y = vCoord.Y; // !!!!!!!!!!!!!!!!!!!!!
+	float holdem = x;
+	float yhel = y;
 	/* Draw whatevs here */
+	//al_transform_coordinates(&trans, &x, &y);
+	//printf("%f\t", x-holdem);
+	
+	/*al_draw_filled_rectangle(vCoord.X-100, vCoord.Y-100, vCoord.X + x + 100, vCoord.Y + y + 100, al_map_rgb(25, 25, 25));
+	al_put_pixel(x + 100, y + 100, al_map_rgb(255, 25, 255));*/
 	al_draw_filled_rectangle(vCoord.X, vCoord.Y - 9, vCoord.X + 10, vCoord.Y - 7, al_map_rgb(255, 0, 0));
 	al_draw_filled_rectangle(vCoord.X, vCoord.Y + 9, vCoord.X + 10, vCoord.Y + 7, al_map_rgb(255, 0, 0));
-
+	
 
 
 	al_draw_filled_triangle(vCoord.X - 12, vCoord.Y - 17, vCoord.X + 12, vCoord.Y, vCoord.X - 12, vCoord.Y + 17, al_map_rgb(255, 255, 0));
 	al_draw_filled_rectangle(vCoord.X - 12, vCoord.Y - 2, vCoord.X + 15, vCoord.Y + 2, al_map_rgb(0, 0, 255));
+	
 	/* Turn off the rotation */
 	al_identity_transform(&trans);
 	al_use_transform(&trans);
 	
+	
+	
+	//al_draw_filled_rectangle(vCoord.X, vCoord.Y, vCoord.X + 100, vCoord.Y + 100, al_map_rgb(255, 0, 0));
+	//printf("%f\n", y + 100 - vCoord.Y);
 }
 void Player::ApplyForce(double Angle)
 {
@@ -65,7 +79,7 @@ void Player::ApplyForce(double Angle)
 		Down = Math::MakeVectorByRot(90);
 	
 	if(Movesc !=0 && !OutOfBounds(- vDir.Magnitude()* 50))
-	vDir = Math::ResultVectorOfForces(Right, Left, Up, Down);
+		vDir = Math::ResultVectorOfForces(Right, Left, Up, Down);
 	if (Movesc == 0)
 		ApplyFriction();
 

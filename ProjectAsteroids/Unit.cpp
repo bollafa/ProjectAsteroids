@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "MathHelper.h"
 #include "Globals.h"
+#include "BBox.h"
 #include "Unit.h"
 #include <math.h>
 #include <allegro5\allegro_primitives.h>
@@ -33,6 +34,8 @@ void Unit::MoveToOppositePos()
 
 		al_draw_line(WIDTH / 2, HEIGHT / 2, (vCoord.X + vTemp.X) * 1, (vCoord.Y + vTemp.Y) * 1, al_map_rgb(100, 100, 255), 2);
 		vCoord = vCoord + vDir;
-
+		/*vDir.Y *= -1;
+		vDir.X *= -1;*/
+		//vDir.Y -= +20;
 	}
 }

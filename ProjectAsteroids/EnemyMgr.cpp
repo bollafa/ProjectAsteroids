@@ -7,6 +7,7 @@
 #include "Asteroid.h"
 #include "UnitMgr.h"
 #include "Globals.h"
+#include <vector>
 #include "EnemyMgr.h"
 
 bool EnemyMgr::ShouldSpawn()
@@ -22,7 +23,10 @@ bool EnemyMgr::ShouldSpawn()
 Vector EnemyMgr::RandomPosition()
 {
 	//TODO: MAKE AN ALGORITHM
-	return Vector(fmod(rand(),WIDTH),20);
+	//unsigned short *thing = new unsigned short();
+	//seed
+	
+	return Vector(fmod(rand(),WIDTH-10),20);
 }
 
 void EnemyMgr::CreateEnemies()
@@ -35,14 +39,16 @@ void EnemyMgr::CreateEnemies()
 		if(UnitMgr::mgrUnits.size() < MinDelay+10)
 		for (int i = 10; i > 0; i--)
 		{
-			Asteroid* Enemy = new Asteroid(RandomPosition(), 5.0, Difficulty); 
+			Asteroid* Enemy = new Asteroid(RandomPosition(), 2.0, Difficulty); 
+			Asteroid Neym(RandomPosition(), 2.0, Difficulty);
 			UnitMgr::AddToGroup(Enemy);
+			Enemies.push_back(Neym);
 		}
 		// Change size based on time, but we need time
 		
 		//Difficulty *= 1.25;
-		if (Difficulty > 10)
-			Difficulty = 10;
+		if (Difficulty > 20)
+			Difficulty = 20;
 		else
 			Difficulty *= 1.001;
 		//Difficulty = fmod(Difficulty, 10);
@@ -51,4 +57,23 @@ void EnemyMgr::CreateEnemies()
 	} // Aqui ves?
 
 	// Do nothing
+}
+
+void EnemyMgr::Update()
+{
+
+	auto it = Enemies.begin();
+	if (!Enemies.empty())
+	do
+	{
+		/*if ((*it)->OutOfBounds())
+		it = mgrUnits.erase(it);
+
+		else*/
+		{
+			it->Update();
+			++it;
+
+		}
+	} while (it != Enemies.end());
 }

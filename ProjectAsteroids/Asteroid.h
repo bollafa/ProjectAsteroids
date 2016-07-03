@@ -12,8 +12,9 @@ class Asteroid :  public Unit
 private:
 	double InitAngle;
 	Vector InitialVector;
+	//BBox BoundingBox;
 public:
-	Asteroid(Vector ivCoord, double Size, double tSpeed) : Unit(ivCoord, Size,tSpeed),InitAngle(Math::VectorAngle(Math::VectorDistanceBetweenEntities(*pPlayer, *this))), InitialVector(Math::VectorDistanceBetweenEntities(*pPlayer, *this)) { R = 0; G = 255; B = 0; }
+	Asteroid(Vector ivCoord, double Size, double tSpeed) : Unit(ivCoord, Size, tSpeed), InitAngle(Math::VectorAngle(Math::VectorDistanceBetweenEntities(*pPlayer, *this))), InitialVector(Math::VectorDistanceBetweenEntities(*pPlayer, *this)) { R = 0; G = 255; B = 0; vDir = InitialVector; }
 
 	  void Draw() ;
 	 void MoveTo();

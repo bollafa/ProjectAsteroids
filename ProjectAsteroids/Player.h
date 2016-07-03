@@ -14,7 +14,7 @@ private:
 public:
 	Player(Vector ivCoord) : Unit(ivCoord) { R = 66; G = 133; B = 244; }
 	Player(Vector ivCoord, double __dSize, double aSpeed) : Unit(ivCoord, __dSize, aSpeed), bKeyForce(false) , Movesc(0b00000000){R = 66; G = 133; B = 244; vDir.X = 0;}
-	inline void Draw();
+	 void Draw();
 	bool ShouldMove() { return bKeyForce; }
 	void ApplyForce(double Angle);
 	void MoveTo();

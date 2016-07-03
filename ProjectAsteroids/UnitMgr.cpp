@@ -10,6 +10,7 @@
 #include <list>
 #include <forward_list>
  std::vector<std::shared_ptr<Unit>> UnitMgr::mgrUnits; // Yuhu , dont Forget the UnitMgr:: !!!!!!!!!!!!!!!!!!!!
+
  void UnitMgr::AddToGroup(Unit* uLiving)
 {
 	mgrUnits.push_back((std::shared_ptr<Unit>(uLiving)));
@@ -48,15 +49,13 @@
 		if (it != mgrUnits.end() && it != mgrUnits.begin())
 			++it;
 
-	}*/ // FIX LATER
+	}*/ // FIX LATER !!!!!!!!!!!!!!!!!!
+	
 	 auto it = mgrUnits.begin();
 	if(!mgrUnits.empty())
 	do
 	{
-		/*if ((*it)->OutOfBounds())
-			it = mgrUnits.erase(it);
 		
-		else*/
 		{
 			(*it)->Update();
 			++it;
@@ -64,4 +63,60 @@
 		}
 	} while (it != mgrUnits.end());
 
+}
+
+bool UnitMgr::CheckCollision(Unit &One, Unit &Two) // Target , Source
+{
+	//Vector distance (((One.vCoord.X+One.Bounds.vWidth) - (Two.vCoord+Two.Bounds.vWidth)), ((One.vCoord + One.Bounds.vHeight) - (Two.vCoord + Two.Bounds.vHeight)));
+	//Vector XDistance = ((One.vCoord + One.Bounds.vWidth) - (Two.vCoord + Two.Bounds.vWidth));
+	//Vector YDistance = ((One.vCoord + One.Bounds.vHeight) - (Two.vCoord + Two.Bounds.vHeight));
+	Vector ProjectionDistance = (One.vCoord) - (Two.vCoord);
+	ProjectionDistance = ProjectionDistance * ProjectionDistance;
+	double Size = One.dSize + Two.dSize;
+	Size *= Size;
+	//printf("%f",  Size);
+	return (ProjectionDistance < Size);
+
+}
+
+void UnitMgr::UpdateCollision()
+{
+	auto pt = mgrUnits.begin(); //BEGIn
+
+	bool Deleted = false;
+	if (!mgrUnits.empty())
+		do
+		{
+			/* auto jp = mgrUnits.begin();
+			do
+			{
+
+
+			} while (jp != mgrUnits.end());*/
+			for (auto jp = mgrUnits.begin(); jp != mgrUnits.end(); ++jp)
+			{
+				if (CheckCollision(*jp->get(), *pt->get()) && jp != pt)
+				{
+					printf("Collosion!\t");
+					Deleted = true;
+					//jp = mgrUnits.erase(jp);
+
+				}
+
+
+			}
+			if (!Deleted)
+			{
+
+				++pt;
+			}
+			else
+			{
+				Deleted = false;
+				pt = mgrUnits.erase(pt);
+			}
+
+
+
+		} while (pt != mgrUnits.end());//END
 }

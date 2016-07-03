@@ -13,9 +13,11 @@
 #include "Asteroid.h"
 #include "UnitMgr.h"
 #include "EnemyMgr.h"
+#include "Cannon.h"
 class Player;
 Player* pPlayer;
 EnemyMgr* pEnemyMgr;
+
 int main()
 {
 	/*
@@ -48,15 +50,16 @@ int main()
 	Basic = al_create_builtin_font();
 	tick = al_create_timer(1.0 / FPS); // REMEMBER THIS IS DOUBLE NOT INT
 	event_q = al_create_event_queue();
-	spawner = al_create_timer(10);
+	spawner = al_create_timer(0.5);
 	// Init Player & Managers
 	//--------------------------------------
 	pPlayer = new Player(Vector(WIDTH / 2, HEIGHT / 2 ), 10.5,3.0),
 	pEnemyMgr = new EnemyMgr(20, 2.0,50);
 	int counter = 0;
 	bool IsMoving = false;
-	//FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	
+	//FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF CANONS // FIXED POS
+	Cannon cannonone(Vector( WIDTH - WIDTH, HEIGHT /2));
+	Cannon cannontwo(Vector( WIDTH , HEIGHT / 2));
 	// Register Events
 	al_register_event_source(event_q, al_get_timer_event_source(tick));
 	al_register_event_source(event_q, al_get_keyboard_event_source());
@@ -88,8 +91,13 @@ int main()
 				bReDraw = true;
 			if(ev.timer.source ==spawner )
 				pEnemyMgr->CreateEnemies();
+			//UnitMgr::UpdateCollision();
 			break;
-
+		case ALLEGRO_EVENT_MOUSE_AXES:
+			// Cannon1->MoveTo(X,Y) Cannon2->MoveTo(X,Y)
+			cannonone.MoveTo(ev.mouse.x, ev.mouse.y);
+			cannontwo.MoveTo(ev.mouse.x, ev.mouse.y);
+			break;
 		case ALLEGRO_EVENT_KEY_UP:
 			switch (ev.keyboard.keycode)
 			{
@@ -159,6 +167,8 @@ int main()
 			//pPlayer->ApplyForce(counter);
 			//pPlayer->MoveTo();
 			pPlayer->Update();
+			cannonone.Update();
+			cannontwo.Update();
 			//pPlayer->Draw();
 			//Math::VectorbyAngle(circle, counter, 3);
 			//al_draw
@@ -171,7 +181,11 @@ int main()
 			
 			double INITIALTIME = al_get_time();
 			UnitMgr::UpdateUnits();
+			//pEnemyMgr->Update(); //This is slower, why? i dont know but it is
 			al_draw_textf(Basic, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "AAAAAAAAAAAAAAA n  The Game: %i Time : %f", UnitMgr::mgrUnits.size(), al_get_time() - INITIALTIME);
+			//double INITIALTIME = al_get_time();
+			
+			//al_draw_textf(Basic, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "AAAAAAAAAAAAAAA n  The Game: %i Time : %f", UnitMgr::mgrUnits.size(), al_get_time() - INITIALTIME);
 			al_draw_circle(WIDTH / 2, HEIGHT / 2, 400, al_map_rgb(255, 25, 25), 2);
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
